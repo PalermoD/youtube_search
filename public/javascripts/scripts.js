@@ -28,4 +28,69 @@ $(function() {
 
 		}
 	});
+
+     $('#search-form').submit(function(e){
+     	e.preventDefault();
+     });
 })
+
+
+function search(){
+	// clear results
+	$('#results').html('');
+	$('#buttons').html('');
+
+	// get form input
+	q = $('#query').val();
+
+	// run GET request for youtube api
+	$.get(
+           "https://www.googleapis.com/youtube/v3/search",{
+           	part: 'snippet, id',
+           	q: q,
+           	type: 'video',
+           	key: 'AIzaSyCcmKPkiZUntHqEqMchtXzioOzcgD74Um4'},
+           function(data){
+           	 var nextPageToken = data.nextPageToken;
+           	 var prevPageToken = data.prevPageToken;
+
+           	 console.log(data.items);
+               
+               //get output
+           	 $.each(data.items, function(i, item){
+                 var output = getOutput(item);
+
+                 //display results 
+                 $('#results').append(output);
+           	  });
+           	}
+		);
+
+}
+
+
+// build output
+function getOutput(item){
+	var videoid = item.id.videoId;
+	var title = item.snippet.title;
+	var desicription = item.snippet.desicription;
+	var channelTitle = item.snippet.channelTitle;
+	var videoDate = item.snippet.publishedAt;
+	var thumb = item.snippet.thumbnails.high.url;
+
+	// output html 
+	var output = '<li>' +
+	'<div class="list-left">' +
+	'<img src="'+thumb+'">' + 
+	'</div>' +
+	'<div class = "list-right">' +
+	'<h3>'+title+'</h3>'
+	'<small>By <span class="cTitle">'+channelTitle+'</span> on '+videoDate+' </small>' + 
+	'</div>' + 
+	'</li>' +
+	'<div class="clearfix"></div>' + 
+	'';
+	return output;
+
+
+}
