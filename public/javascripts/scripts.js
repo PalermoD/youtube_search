@@ -164,7 +164,7 @@ function prevPage(){
 
 // build output
 function getOutput(item){
-	var videoid = item.id.videoId;
+	var videoId = item.id.videoId;
 	var title = item.snippet.title;
 	var description = item.snippet.description;
 	var channelTitle = item.snippet.channelTitle;
@@ -177,7 +177,7 @@ function getOutput(item){
 	'<img src="'+thumb+'">' + 
 	'</div>' +
 	'<div class = "list-right">' +
-	'<h3>'+title+'</h3>' +
+	'<h3><a class="fancybox fancybox.iframe" href="http://www.youtube.com/embed/'+videoId+'">'+title+'</h3>' +
 	'<small>By <span class="cTitle">'+channelTitle+'</span> on '+videoDate+'</small>' + 
 	'<p>'+description+'</p>' + 
 	'</div>' + 
