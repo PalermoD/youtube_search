@@ -73,6 +73,94 @@ function search(){
 
 }
 
+// Next Page Function
+function nextPage(){
+	var token = $('#next-button').data('token');
+	var q = $('#next-button').data('query');
+
+	// Clear Results
+	$('#results').html('');
+	$('#buttons').html('');
+	
+	// Get Form Input
+	q = $('#query').val();
+	
+	// Run GET Request on API
+	$.get(
+		"https://www.googleapis.com/youtube/v3/search",{
+			part: 'snippet, id',
+			q: q,
+			pageToken: token,
+			type:'video',
+			key: 'AIzaSyCvk3NNMQASZgFkCNxIp9jH-l8O0PXhDUo'},
+			function(data){
+				var nextPageToken = data.nextPageToken;
+				var prevPageToken = data.prevPageToken;
+				
+				// Log Data
+				console.log(data);
+				
+				$.each(data.items, function(i, item){
+					// Get Output
+					var output = getOutput(item);
+					
+					// Display Results
+					$('#results').append(output);
+				});
+				
+				var buttons = getButtons(prevPageToken, nextPageToken);
+				
+				// Display Buttons
+				$('#buttons').append(buttons);
+			}
+	);
+}
+
+
+// Prev Page Function
+function prevPage(){
+	var token = $('#prev-button').data('token');
+	var q = $('#prev-button').data('query');
+
+	// Clear Results
+	$('#results').html('');
+	$('#buttons').html('');
+	
+	// Get Form Input
+	q = $('#query').val();
+	
+	// Run GET Request on API
+	$.get(
+		"https://www.googleapis.com/youtube/v3/search",{
+			part: 'snippet, id',
+			q: q,
+			pageToken: token,
+			type:'video',
+			key: 'AIzaSyCvk3NNMQASZgFkCNxIp9jH-l8O0PXhDUo'},
+			function(data){
+				var nextPageToken = data.nextPageToken;
+				var prevPageToken = data.prevPageToken;
+				
+				// Log Data
+				console.log(data);
+				
+				$.each(data.items, function(i, item){
+					// Get Output
+					var output = getOutput(item);
+					
+					// Display Results
+					$('#results').append(output);
+				});
+				
+				var buttons = getButtons(prevPageToken, nextPageToken);
+				
+				// Display Buttons
+				$('#buttons').append(buttons);
+			}
+	);
+
+}
+
 
 // build output
 function getOutput(item){
